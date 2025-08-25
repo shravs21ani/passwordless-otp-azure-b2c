@@ -18,8 +18,8 @@
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   React App     │    │  .NET Core API  │    │  Azure B2C     │
-│   (Frontend)    │◄──►│   (Backend)     │◄──►│  + Okta        │
+│   React App     │    │  .NET Core API  │    │  Azure B2C      │
+│   (Frontend)    │◄──►│   (Backend)     │◄──►│  + Okta         │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
                               │
                               ▼
