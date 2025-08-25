@@ -1,4 +1,4 @@
-# AccessOTP + Azure AD B2C + Okta — Case Study
+# cross-subscription-passwordless-auth
 
 ## Problem Statement
 Traditional authentication flows required customers to create and remember user IDs and passwords. This led to **friction, poor adoption rates, and higher support costs**. The organization needed a **secure, passwordless authentication mechanism** that would:
@@ -80,30 +80,24 @@ sequenceDiagram
 ### Component Diagram — AccessOTP Architecture
 ```mermaid
 flowchart LR
-    C[Customer] -->|Login| APP[App A (Sub X)]
-    C -->|Login| APP2[App B (Sub Y)]
+    C[Customer] -->|Login| APP[App A - Sub X]
+    C -->|Login| APP2[App B - Sub Y]
     APP -->|OIDC/OAuth| B2C[Azure AD B2C (Federation Hub)]
     APP2 -->|OIDC/OAuth| B2C
 
-    B2C -->|Federation (SAML/OIDC)| OKTA[Okta<br/>(AccessOTP Policy)]
-    OKTA -->|OTP Orchestration| OTP[(SMS/Email Provider)]
+    B2C -->|Federation (SAML/OIDC)| OKTA[Okta (AccessOTP Policy)]
+    OKTA -->|OTP Orchestration| OTP[(SMS or Email Provider)]
 
-    subgraph Identity Plane
+    subgraph Identity_Plane [Identity Plane]
       B2C
       OKTA
       OTP
     end
 
-    subgraph App Plane
+    subgraph App_Plane [App Plane]
       APP
       APP2
     end
-
-    style B2C fill:#e6f3ff,stroke:#3a7bd5,stroke-width:1.5px
-    style OKTA fill:#f2f7ff,stroke:#3a7bd5,stroke-width:1.5px
-    style OTP fill:#fff7e6,stroke:#f0a500,stroke-width:1.5px
-    style APP fill:#eef8f1,stroke:#2c974b,stroke-width:1.5px
-    style APP2 fill:#eef8f1,stroke:#2c974b,stroke-width:1.5px
 ```
 
 ---
