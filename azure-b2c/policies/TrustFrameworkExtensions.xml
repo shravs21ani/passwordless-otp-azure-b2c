@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="yourtenant.onmicrosoft.com" PolicyId="B2C_1A_TrustFrameworkExtensions" PublicPolicyUri="http://yourtenant.onmicrosoft.com/B2C_1A_TrustFrameworkExtensions">
+
+  <BasePolicy>
+    <TenantId>yourtenant.onmicrosoft.com</TenantId>
+    <PolicyId>B2C_1A_TrustFrameworkBase</PolicyId>
+  </BasePolicy>
+
+  <BuildingBlocks>
+    <ClaimsSchema>
+      <!-- OTP Claims -->
+      <ClaimType Id="otpCode">
+        <DisplayName>OTP Code</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>Enter the 6-digit OTP code sent to your device</UserHelpText>
+        <UserInputType>TextBox</UserInputType>
+        <Restriction>
+          <Pattern RegularExpression="^[0-9]{6}$" HelpText="OTP code must be exactly 6 digits" />
+        </Restriction>
+      </ClaimType>
+
+      <ClaimType Id="otpDeliveryMethod">
+        <DisplayName>OTP Delivery Method</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>Choose how to receive your OTP</UserHelpText>
+        <UserInputType>RadioSingleSelect</UserInputType>
+        <Restriction>
+          <Enumeration Text="Email" Value="email" SelectByDefault="true" />
+          <Enumeration Text="SMS" Value="sms" SelectByDefault="false" />
+        </Restriction>
+      </ClaimType>
+
+      <ClaimType Id="otpExpiresAt">
+        <DisplayName>OTP Expiration Time</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
+
+      <ClaimType Id="otpRetryCount">
+        <DisplayName>OTP Retry Count</DisplayName>
+        <DataType>int</DataType>
+      </ClaimType>
+
+      <ClaimType Id="otpNextRetryAt">
+        <DisplayName>OTP Next Retry Time</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
+
+      <!-- User Profile Claims -->
+      <ClaimType Id="extension_FirstName">
+        <DisplayName>First Name</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>Your first name</UserHelpText>
+        <UserInputType>TextBox</UserInputType>
+        <Restriction>
+          <MinLength>1</MinLength>
+          <MaxLength>100</MaxLength>
+        </Restriction>
+      </ClaimType>
+
+      <ClaimType Id="extension_LastName">
+        <DisplayName>Last Name</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>Your last name</UserHelpText>
+        <UserInputType>TextBox</UserInputType>
+        <Restriction>
+          <MinLength>1</MinLength>
+          <MaxLength>100</MaxLength>
+        </Restriction>
+      </ClaimType>
+
+      <ClaimType Id="extension_PhoneNumber">
+        <DisplayName>Phone Number</DisplayName>
+        <DataType>string</DataType>
+        <UserHelpText>Your phone number for SMS OTP</UserHelpText>
+        <UserInputType>TextBox</UserInputType>
+        <Restriction>
+          <Pattern RegularExpression="^\+?[1-9]\d{1,14}$" HelpText="Please enter a valid phone number" />
+        </Restriction>
+      </ClaimType>
+    </ClaimsSchema>
+
+    <ContentDefinitions>
+      <ContentDefinition Id="api.otp">
+        <LoadUri>https://yourtenant.b2clogin.com/yourtenant.onmicrosoft.com/oauth2/v2.0/authorize</LoadUri>
+        <RecoveryUri>https://yourtenant.b2clogin.com/yourtenant.onmicrosoft.com/oauth2/v2.0/authorize</RecoveryUri>
+        <DataUri>urn:com:microsoft:aad:b2c:elements:contract:page:otp</DataUri>
+        <Metadata>
+          <Item Key="DisplayName">OTP Page</Item>
+        </Metadata>
+      </ContentDefinition>
+    </ContentDefinitions>
+  </BuildingBlocks>
+
+  <ClaimsProviders>
+    <!-- OTP Technical Profile -->
+    <ClaimsProvider>
+      <DisplayName>OTP Technical Profile</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="OTP-Generate">
+          <DisplayName>Generate OTP</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <Metadata>
+            <Item Key="ServiceUrl">https://your-api-domain.com/api/otp/generate</Item>
+            <Item Key="AuthenticationType">Basic</Item>
+            <Item Key="SendClaimsIn">Body</Item>
+            <Item Key="AllowInsecureAuthInProduction">false</Item>
+          </Metadata>
+          <CryptographicKeys>
+            <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_RestApiUsername" />
+            <Key Id="BasicAuthenticationPassword" StorageReferenceId="B2C_1A_RestApiPassword" />
+          </CryptographicKeys>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="signInName" PartnerClaimType="identifier" />
+            <InputClaim ClaimTypeReferenceId="otpDeliveryMethod" PartnerClaimType="deliveryMethod" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="otpCode" PartnerClaimType="otpCode" />
+            <OutputClaim ClaimTypeReferenceId="otpExpiresAt" PartnerClaimType="expiresAt" />
+            <OutputClaim ClaimTypeReferenceId="otpRetryCount" PartnerClaimType="retryCount" />
+            <OutputClaim ClaimTypeReferenceId="otpNextRetryAt" PartnerClaimType="nextRetryAt" />
+          </OutputClaims>
+          <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+
+        <TechnicalProfile Id="OTP-Validate">
+          <DisplayName>Validate OTP</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <Metadata>
+            <Item Key="ServiceUrl">https://your-api-domain.com/api/otp/validate</Item>
+            <Item Key="AuthenticationType">Basic</Item>
+            <Item Key="SendClaimsIn">Body</Item>
+            <Item Key="AllowInsecureAuthInProduction">false</Item>
+          </Metadata>
+          <CryptographicKeys>
+            <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_RestApiUsername" />
+            <Key Id="BasicAuthenticationPassword" StorageReferenceId="B2C_1A_RestApiPassword" />
+          </CryptographicKeys>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="signInName" PartnerClaimType="identifier" />
+            <InputClaim ClaimTypeReferenceId="otpCode" PartnerClaimType="otpCode" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="userId" />
+            <OutputClaim ClaimTypeReferenceId="signInName" PartnerClaimType="email" />
+            <OutputClaim ClaimTypeReferenceId="extension_FirstName" PartnerClaimType="firstName" />
+            <OutputClaim ClaimTypeReferenceId="extension_LastName" PartnerClaimType="lastName" />
+            <OutputClaim ClaimTypeReferenceId="extension_PhoneNumber" PartnerClaimType="phoneNumber" />
+          </OutputClaims>
+          <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
+
+    <!-- Local Account SignIn -->
+    <ClaimsProvider>
+      <DisplayName>Local Account</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="login-NonInteractive">
+          <DisplayName>Local Account SignIn</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.OTPProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <Metadata>
+            <Item Key="SignUpTarget">OTP-Generate</Item>
+            <Item Key="SignInTarget">OTP-Validate</Item>
+            <Item Key="ResetPasswordTarget">OTP-Generate</Item>
+            <Item Key="CancelTarget">OTP-Cancel</Item>
+          </Metadata>
+          <InputClaims>
+            <InputClaim ClaimTypeReferenceId="signInName" PartnerClaimType="identifier" />
+            <InputClaim ClaimTypeReferenceId="otpDeliveryMethod" PartnerClaimType="deliveryMethod" />
+          </InputClaims>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="objectId" />
+            <OutputClaim ClaimTypeReferenceId="signInName" PartnerClaimType="email" />
+            <OutputClaim ClaimTypeReferenceId="extension_FirstName" />
+            <OutputClaim ClaimTypeReferenceId="extension_LastName" />
+            <OutputClaim ClaimTypeReferenceId="extension_PhoneNumber" />
+          </OutputClaims>
+          <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
+  </ClaimsProviders>
+
+  <UserJourneys>
+    <UserJourney Id="OTP-SignIn">
+      <OrchestrationSteps>
+        <!-- Step 1: Collect user identifier and delivery method -->
+        <OrchestrationStep Order="1" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="CollectIdentifier" TechnicalProfileReferenceId="login-NonInteractive" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <!-- Step 2: Generate and send OTP -->
+        <OrchestrationStep Order="2" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="GenerateOTP" TechnicalProfileReferenceId="OTP-Generate" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <!-- Step 3: Collect OTP code -->
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="CollectOTP" TechnicalProfileReferenceId="login-NonInteractive" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <!-- Step 4: Validate OTP -->
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="ValidateOTP" TechnicalProfileReferenceId="OTP-Validate" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+
+        <!-- Step 5: Issue JWT token -->
+        <OrchestrationStep Order="5" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
+      </OrchestrationSteps>
+    </UserJourney>
+  </UserJourneys>
+
+  <RelyingParty>
+    <DefaultUserJourney ReferenceId="OTP-SignIn" />
+    <TechnicalProfile Id="PolicyProfile">
+      <DisplayName>PolicyProfile</DisplayName>
+      <Protocol Name="OpenIdConnect" />
+      <OutputClaims>
+        <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub" />
+        <OutputClaim ClaimTypeReferenceId="signInName" PartnerClaimType="email" />
+        <OutputClaim ClaimTypeReferenceId="extension_FirstName" PartnerClaimType="given_name" />
+        <OutputClaim ClaimTypeReferenceId="extension_LastName" PartnerClaimType="family_name" />
+        <OutputClaim ClaimTypeReferenceId="extension_PhoneNumber" PartnerClaimType="phone_number" />
+      </OutputClaims>
+      <SubjectNamingInfo ClaimType="sub" />
+    </TechnicalProfile>
+  </RelyingParty>
+</TrustFrameworkPolicy>
+
