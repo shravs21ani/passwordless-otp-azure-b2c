@@ -6,13 +6,13 @@
 
 ## Key Features
 
-- ** Passwordless Authentication** - No passwords to remember or compromise
-- ** Multi-Delivery OTP** - SMS and Email OTP delivery
-- ** Smart Retry Logic** - Progressive retry intervals (30s → 1m → 1.5m)
-- ** Enterprise Integration** - Azure AD B2C and Okta federation
-- ** Security First** - JWT tokens, rate limiting, and account protection
-- ** Scalable Architecture** - Microservices-ready with clean separation
-- ** Modern UI/UX** - Beautiful React frontend with Tailwind CSS
+- **Passwordless Authentication** - No passwords to remember or compromise
+- **Multi-Delivery OTP** - SMS and Email OTP delivery
+- **Smart Retry Logic** - Progressive retry intervals (30s → 1m → 1.5m)
+- **Enterprise Integration** - Azure AD B2C and Okta federation
+- **Security First** - JWT tokens, rate limiting, and account protection
+- **Scalable Architecture** - Microservices-ready with clean separation
+- **Modern UI/UX** - Beautiful React frontend with Tailwind CSS
 
 ## Architecture
 
@@ -287,7 +287,7 @@ npm test
 4. Add tests
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
