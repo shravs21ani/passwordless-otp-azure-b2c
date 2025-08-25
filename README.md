@@ -28,6 +28,30 @@
                        │   Database      │
                        └─────────────────┘
 ```
+## Component Diagram — AccessOTP Architecture
+
+```mermaid
+flowchart LR
+    C[Customer] -->|Login| APP[App A - Sub X]
+    C -->|Login| APP2[App B - Sub Y]
+
+    APP -->|OIDC OAuth| B2C[Azure AD B2C - Federation Hub]
+    APP2 -->|OIDC OAuth| B2C
+
+    B2C -->|Federation SAML OIDC| OKTA[Okta - AccessOTP Policy]
+    OKTA -->|OTP Orchestration| OTP[(SMS or Email Provider)]
+
+    subgraph Identity_Plane
+      B2C
+      OKTA
+      OTP
+    end
+
+    subgraph App_Plane
+      APP
+      APP2
+    end
+```
 
 ## Technology Stack
 
