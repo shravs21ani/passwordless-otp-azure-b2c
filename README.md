@@ -1,20 +1,20 @@
 # AccessOTP - Passwordless Authentication Solution
 
-## 🚀 Overview
+## Overview
 
 **AccessOTP** is a comprehensive, enterprise-grade passwordless authentication solution that implements OTP-based login with Azure AD B2C and Okta integration. Built with .NET Core 9 and React, it provides a secure, scalable, and user-friendly authentication framework.
 
-## ✨ Key Features
+## Key Features
 
-- **🔐 Passwordless Authentication** - No passwords to remember or compromise
-- **📱 Multi-Delivery OTP** - SMS and Email OTP delivery
-- **⏱️ Smart Retry Logic** - Progressive retry intervals (30s → 1m → 1.5m)
-- **🏢 Enterprise Integration** - Azure AD B2C and Okta federation
-- **🔒 Security First** - JWT tokens, rate limiting, and account protection
-- **📊 Scalable Architecture** - Microservices-ready with clean separation
-- **🎨 Modern UI/UX** - Beautiful React frontend with Tailwind CSS
+- ** Passwordless Authentication** - No passwords to remember or compromise
+- ** Multi-Delivery OTP** - SMS and Email OTP delivery
+- ** Smart Retry Logic** - Progressive retry intervals (30s → 1m → 1.5m)
+- ** Enterprise Integration** - Azure AD B2C and Okta federation
+- ** Security First** - JWT tokens, rate limiting, and account protection
+- ** Scalable Architecture** - Microservices-ready with clean separation
+- ** Modern UI/UX** - Beautiful React frontend with Tailwind CSS
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -29,7 +29,7 @@
                        └─────────────────┘
 ```
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Backend
 - **.NET Core 9** - Latest LTS version
