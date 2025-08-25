@@ -55,7 +55,7 @@
 - **Twilio** - SMS delivery
 - **SendGrid** - Email delivery
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **.NET Core 9 SDK**
 - **Node.js 18+** and npm
@@ -65,7 +65,7 @@
 - **Twilio Account** (for SMS)
 - **SendGrid Account** (for email)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the Repository
 
@@ -109,7 +109,7 @@ npm start
 dotnet ef database update
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Backend Configuration (`appsettings.json`)
 
@@ -155,7 +155,7 @@ REACT_APP_AZURE_B2C_TENANT=yourtenant.onmicrosoft.com
 REACT_APP_AZURE_B2C_CLIENT_ID=your-client-id
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Azure Deployment
 
@@ -191,7 +191,7 @@ Use the provided PowerShell script:
    - GitHub Actions
    - Manual deployment
 
-## 🔐 Azure B2C Setup
+## Azure B2C Setup
 
 ### 1. Create B2C Tenant
 
@@ -215,7 +215,7 @@ Upload the provided custom policies:
 2. Configure Azure B2C as Identity Provider
 3. Set up claim mapping
 
-## 📱 OTP Flow
+## OTP Flow
 
 ### 1. User Login
 ```
@@ -237,7 +237,7 @@ User enters code → API validates → Issues JWT token → Creates session
 30s → 1m → 1.5m intervals → Maximum 3 retries → Account blocking
 ```
 
-## 🧪 Testing
+## Testing
 
 ### API Testing
 
@@ -263,7 +263,7 @@ cd frontend
 npm test
 ```
 
-## 🔒 Security Features
+## Security Features
 
 - **Rate Limiting** - Prevents brute force attacks
 - **Account Blocking** - Temporary blocking after failed attempts
@@ -272,14 +272,14 @@ npm test
 - **HTTPS Enforcement** - All communications encrypted
 - **CORS Protection** - Controlled cross-origin access
 
-## 📊 Monitoring & Logging
+## Monitoring & Logging
 
 - **Structured Logging** - Serilog integration
 - **Performance Metrics** - Response time tracking
 - **Error Tracking** - Exception logging and monitoring
 - **Health Checks** - Service availability monitoring
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -291,13 +291,13 @@ npm test
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## Support
 
 - **Documentation**: [Wiki](https://github.com/shravs21ani/passwordless-otp-azure-b2c/wiki)
 - **Issues**: [GitHub Issues](https://github.com/shravs21ani/passwordless-otp-azure-b2c/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/shravs21ani/passwordless-otp-azure-b2c/discussions)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Azure B2C** - Identity platform
 - **Okta** - Federation partner
@@ -308,4 +308,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ for secure, passwordless authentication**
+**Built with LOVE for secure, passwordless authentication**
