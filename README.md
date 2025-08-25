@@ -102,14 +102,3 @@ flowchart LR
 ```
 
 ---
-
-## STAR Story — Bold Idea (AccessOTP)
-**Situation:** The existing authentication flow required customers to create and remember credentials, causing friction and low adoption.  
-**Task:** Propose a **secure, user-friendly, scalable** solution that integrates with Okta and Azure.  
-**Action:** Designed **AccessOTP** (OTP-based login) with **Okta → Azure AD B2C federation**, including a **30s → 1m → 1.5m** OTP retry mechanism; tokens issued by B2C trusted across subscriptions.  
-**Result:** Approved by leadership; delivered **frictionless login**, **reusable identity framework**, and improved adoption while aligning with **passwordless best practices**.
-
----
-
-## Notes
-> Make sure GitHub has **Mermaid diagrams enabled** (GitHub supports Mermaid in Markdown natively). If diagrams don’t render in your local preview, view them on GitHub.
